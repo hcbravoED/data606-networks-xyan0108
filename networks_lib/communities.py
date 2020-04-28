@@ -31,20 +31,24 @@ def girvan_newman(mat, K):
         eb = np.zeros((num_vertices, num_vertices))
         for vertices in components:
             cur_mat = work_mat[vertices,:][:, vertices]
-            cur_eb = edge_betweenness(cur_mat)
+            cur_eb = edge_betweenness(cur_mat)                       
             for i in range(len(vertices)):
-                eb[vertices[i], vertices] = cur_eb[i, :]
-                
+                eb[vertices[i], vertices] = cur_eb[i, :]                              
         # remove edge and get components
         # YOU NEED TO FINISH THIS PART
+        # Done
+        max_eb = np.max(eb)
+        edge = np.where(eb == max_eb)
+        work_mat[edge] = 0
+        components = get_components(work_mat)
         
         # These lines is for testing only, remove in your solution
-        components = []
-        vertices_per_component = math.ceil( num_vertices / K )
-        for i in range(K):
-            start = i * vertices_per_component
-            end = min(start+vertices_per_component, num_vertices-1)
-            components.append(np.arange(end, start, -1))
+        #components = []
+        #vertices_per_component = math.ceil( num_vertices / K )
+        #for i in range(K):
+            #start = i * vertices_per_component
+            #end = min(start+vertices_per_component, num_vertices-1)
+            #components.append(np.arange(end, start, -1))
             
     return components_to_assignment(components, num_vertices)
 

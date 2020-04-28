@@ -14,10 +14,24 @@ from collections import deque
 def bfs_distance(mat):
     num_vertices = mat.shape[0]    
     res = np.full((num_vertices, num_vertices), np.inf)
-    
+    Q = deque()
     # Finish this loop
-    for i in range(num_vertices):
-        pass
+    # Done
+    for u in range(num_vertices):
+        visited = np.full((num_vertices), False)
+        res[u,u] = 0
+        Q.append((u,0))
+        visited[u] = True
+        while Q:
+            pop = Q.popleft()
+            w = pop[0]
+            distance = pop[1]
+            for v in range(num_vertices):
+                if visited[v] == False:
+                    if mat[w,v]:
+                        Q.append((v,distance + 1))
+                        visited[v] = True
+                        res[u,v] = distance + 1 
     return res
 
 ## TODO: Implement this function
@@ -33,15 +47,27 @@ def bfs_distance(mat):
 def get_components(mat):
     dist_mat = bfs_distance(mat)
     num_vertices = mat.shape[0]
-    available = [False for _ in range(num_vertices)]
-
+    available = [True for _ in range(num_vertices)]
     components = []
-    
-    # finish this loop
+
     while any(available):
-        pass
+        for v in range (num_vertices):
+            if available [v] == True:
+                available[v] = False
+                component = []
+                queue = deque([v])
+                while queue:
+                    node = queue.popleft()
+                    component.append(node)
+                    for w in range (num_vertices):
+                        if available[w] == True:
+                            if dist_mat[v,w] < np.inf:
+                                available[w] = False
+                                queue.append(w)               
+                components.append(component)
+    # finish this loop       
+    # done
     
     # this is for testing purposes remove from final solution
-    components = [np.arange(num_vertices)]
-    
+    #components = [np.arange(num_vertices)]
     return components
